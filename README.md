@@ -1,12 +1,31 @@
-# 🛒 E-commerce-Website
+# 🛍️ HackCart - Smart E-Commerce and Service Booking Platform
 
-This project is a multi-page e-commerce website built using HTML, CSS, and JavaScript. It includes modules for browsing products, user authentication, profile management, expense tracking, flight booking, and more.
+HackCart is a unified e-commerce and service-booking platform built during a **24-hour Hackathon**. The goal was to merge essential online shopping and service features like product listings, booking flights, managing profiles, and expenses—all in one streamlined platform.
+
+## 🚀 Why HackCart?
+
+Managing multiple platforms for shopping, booking services, or tracking expenses can be time-consuming and frustrating. HackCart simplifies it all in a **single interface**, built with intuitive HTML/CSS/JS pages and user-friendly UI.
 
 ---
 
-## 🧾 Overview
+## 🎯 Features
 
-This project simulates a realistic shopping experience and extends it with personal finance tracking and utility booking features, all inside a single platform.
+- 🛒 Browse and filter products by category
+- ✈️ Simulate flight bookings
+- 💳 Secure card/payment simulation
+- 👤 User profile management
+- ✍️ Edit profile and login credentials
+- 🔒 Forgot password flow
+- 📊 View basic expense breakdown
+- 📱 Device-specific product pages
+
+---
+
+## 🧑‍💻 Tech Stack
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Platform**: Built with static pages for demo usability
+- **Hosting**: Can be deployed on GitHub Pages or any static site host
 
 ---
 
@@ -14,47 +33,31 @@ This project simulates a realistic shopping experience and extends it with perso
 
 Here are the key HTML pages and their roles:
 
-| File | Description |
-|------|-------------|
-| `landing.html` | Landing page / splash screen |
-| `home.html` | Homepage for the e-commerce platform |
-| `products.html` | Product catalog page |
-| `phone.html` | Phone-specific product page |
-| `probeauty.html` | Beauty products page |
-| `proelec.html` | Electronics product page |
-| `pre.html` | Pre-checkout or confirmation screen |
-| `booking.html` | Booking-related interface |
-| `flight.html` | Flight booking simulation |
-| `card.html` | Card and payment page |
-| `profile.html` | User profile page |
-| `edit.html` | Edit user info |
-| `othersignin.html` | Alternative sign-in page |
-| `forget.html` | Forgot password functionality |
-| `aboutus.html` | About the platform/team |
-| `expense.html` | Basic expense overview |
-| `detailedexpense.html` | Detailed breakdown of expenses |
-| `cibil1.html`, `cibil2.html` | Credit score-related simulation |
-| `alter.html` | Possibly update account or transaction |
-| `phone.html` | Phone product view |
-
-> You can open any of these `.html` files directly in a browser to view the pages.
+| File              | Description                                      |
+|-------------------|--------------------------------------------------|
+| `landing.html`    | Landing page / splash screen                     |
+| `home.html`       | Homepage for the e-commerce platform             |
+| `products.html`   | Product catalog page                             |
+| `phone.html`      | Phone-specific product page                      |
+| `probeauty.html`  | Beauty products page                             |
+| `proelec.html`    | Electronics product page                         |
+| `pre.html`        | Pre-checkout or confirmation screen              |
+| `booking.html`    | Booking-related interface                        |
+| `flight.html`     | Flight booking simulation                        |
+| `card.html`       | Card and payment page                            |
+| `profile.html`    | User profile page                                |
+| `edit.html`       | Edit user info                                   |
+| `othersignin.html`| Alternative sign-in page                         |
+| `forget.html`     | Forgot password functionality                    |
+| `aboutus.html`    | About the platform/team                          |
+| `expense.html`    | Basic expense overview                           |
+| `detailbreakdown.html` | Detailed breakdown of expenses             |
 
 ---
 
-## 🔧 Features
+## 🛠️ Setup Instructions
 
-- 🛍️ Product listing across categories (phones, beauty, electronics)
-- ✈️ Flight booking simulation
-- 📊 Expense tracking with a detailed view
-- 💳 Card/payment form integration
-- 👤 Sign-in, forgot password, and profile editing pages
-- 📄 Multi-page static website ready for backend integration
-
----
-
-## 🚀 How to Run
-
-1. Clone the repository:
+1. Clone the repository  
    ```bash
-   git clone https://github.com/DharaniTharan06/E-commerce-Website.git
-   cd E-commerce-Website/WebDev-Project
+   git clone https://github.com/yourusername/HackCart.git
+   cd HackCart
