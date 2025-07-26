@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #f0f9ff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+    }
+    h2 {
+      text-align: center;
+      color: #0ea5e9;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      color: #0369a1;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #bae6fd;
+      border-radius: 5px;
+      font-family: 'Lato', sans-serif;
+    }
+    .save-button {
+      width: 100%;
+      background: #0ea5e9;
+      color: white;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      font-family: 'Lato', sans-serif;
+    }
+    .save-button:hover {
+      background: #0284c7;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #0ea5e9;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .location-wrapper {
+      position: relative;
+    }
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #bae6fd;
+      border-radius: 0 0 5px 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+    .suggestion-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .suggestion-item:hover {
+      background-color: #e0f2fe;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Edit Profile</h2>
+    <form id="editProfileForm">
+      <label>Full Name</label>
+      <input type="text" id="fullName" value="Rahul Sharma" required>
+
+      <label>Email</label>
+      <input type="email" id="email" value="rahul.sharma@example.com" required>
+
+      <label>Phone</label>
+      <input type="tel" id="phone" value="+91 98765 43210" required>
+
+      <label>Location</label>
+      <div class="location-wrapper">
+        <input type="text" id="location" value="Mumbai, India" required>
+        <div id="locationSuggestions" class="suggestions"></div>
+      </div>
+
+      <button type="submit" class="save-button">Save Changes</button>
+    </form>
+
+    <a href="profile.html" class="back-link">← Back to Profile</a>
+  </div>
+
+  <script>
+    // Sample list of Indian cities
+    const cities = [
+      "Mumbai, India",
+      "Delhi, India",
+      "Bangalore, India",
+      "Hyderabad, India",
+      "Chennai, India",
+      "Kolkata, India",
+      "Pune, India",
+      "Ahmedabad, India",
+      "Jaipur, India",
+      "Surat, India",
+      "Lucknow, India",
+      "Kanpur, India",
+      "Nagpur, India",
+      "Indore, India",
+      "Thane, India"
+    ];
+
+    const locationInput = document.getElementById('location');
+    const suggestionsDiv = document.getElementById('locationSuggestions');
+
+    locationInput.addEventListener('input', function() {
+      const value = this.value.toLowerCase();
+      const filteredCities = cities.filter(city => 
+        city.toLowerCase().includes(value)
+      );
+
+      if (value && filteredCities.length > 0) {
+        suggestionsDiv.innerHTML = filteredCities
+          .map(city => `<div class="suggestion-item">${city}</div>`)
+          .join('');
+        suggestionsDiv.style.display = 'block';
+      } else {
+        suggestionsDiv.style.display = 'none';
+      }
+    });
+
+    suggestionsDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('suggestion-item')) {
+        locationInput.value = e.target.textContent;
+        suggestionsDiv.style.display = 'none';
+      }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!locationInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+        suggestionsDiv.style.display = 'none';
+      }
+    });
+
+    document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Profile updated successfully!');
+      window.location.href = 'profile.html';
+    });
+  </script>
+
+</body>
+</html>

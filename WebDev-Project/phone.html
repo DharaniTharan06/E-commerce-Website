@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in with Phone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #87CEFA, #4682B4);
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .phone-text {
+            color: #FF6347;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .country-select, .phone-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .phone-input::placeholder {
+            color: #666;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #FF6347;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .continue-btn:hover {
+            background: #FF4500;
+            transform: scale(1.05);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 2rem 0;
+            color: #fff;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .google-option {
+            background: rgba(255, 255, 255, 0.9);
+            color: #4285f4;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .google-option:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #FF6347;
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-box h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .popup-box button {
+            padding: 0.8rem 1.5rem;
+            background: #FF6347;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .popup-box button:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <h2>Log in with <span class="phone-text">Phone</span></h2>
+        </div>
+        <div class="input-group">
+            <select id="country-select" class="country-select">
+                <option value="">Select Country</option>
+                <option value="+91">India (+91)</option>
+                <option value="+1">USA (+1)</option>
+                <option value="+44">UK (+44)</option>
+                <option value="+61">Australia (+61)</option>
+                <option value="+1">Canada (+1)</option>
+                <option value="+49">Germany (+49)</option>
+                <option value="+33">France (+33)</option>
+                <option value="+81">Japan (+81)</option>
+                <option value="+55">Brazil (+55)</option>
+                <option value="+27">South Africa (+27)</option>
+            </select>
+            <input type="tel" id="phone-input" class="phone-input" placeholder="Enter your Phone number">
+        </div>
+        <button class="continue-btn" onclick="validateAndRedirect()">Continue</button>
+        <div class="divider">or</div>
+        <div class="google-option" onclick="redirectToGoogleSignIn()">
+            Continue with Google
+        </div>
+        <div class="footer">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+
+    <!-- Popup Alert -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-box">
+            <h3 id="popup-message">Please fill in all the required fields.</h3>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        function validateAndRedirect() {
+            let country = document.getElementById("country-select").value;
+            let phone = document.getElementById("phone-input").value.trim();
+
+            if (country === "" || phone === "") {
+                showPopup("Please select a country and enter your phone number.");
+                return;
+            }
+
+            if (!/^\d{8,15}$/.test(phone)) {
+                showPopup("Please enter a valid phone number (8-15 digits).");
+                return;
+            }
+
+            window.location.href = "card.html";
+        }
+
+        function redirectToGoogleSignIn() {
+            window.location.href = "othersignin.html";
+        }
+
+        function showPopup(message) {
+            document.getElementById("popup-message").innerText = message;
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products You WANT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f0f8ff;
+        }
+
+        .header {
+            background-color: #1e90ff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e0f7ff;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-icon, .profile-icon {
+            background-color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover, .profile-icon:hover {
+            background-color: #e0f7ff;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #87CEEB, #1e90ff);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-button {
+            background-color: white;
+            color: #1e90ff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-button:hover {
+            background-color: #f0f8ff;
+            transform: scale(1.05);
+        }
+
+        .search-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-section h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .search-section span {
+            color: #1e90ff;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #f0f8ff;
+            padding: 0.5rem;
+            border-radius: 25px;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #deeeff;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            width: 100%;
+            background: transparent;
+        }
+
+        .search-icon {
+            background-color: #1e90ff;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .category-section {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .category-title {
+            margin-bottom: 1.5rem;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #1e90ff;
+        }
+
+        .category-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            background-color: #e6f4ff;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e90ff;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover .category-icon {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        .category-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .section-title {
+            margin: 2rem 0 1.5rem;
+            color: #333;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #1e90ff;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1e90ff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card-content {
+            padding: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .card-price {
+            color: #1e90ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .card-button:hover {
+            background-color: #187bcd;
+        }
+
+        .featured-section {
+            background-color: white;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .featured-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .featured-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px;
+            margin: 1rem;
+        }
+
+        .featured-icon {
+            color: #1e90ff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .featured-description {
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .testimonial-section {
+            padding: 3rem 2rem;
+            background-color: #e6f4ff;
+        }
+
+        .testimonial-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+        }
+
+        .testimonial-container::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .testimonial-container::-webkit-scrollbar-thumb {
+            background-color: #1e90ff;
+            border-radius: 5px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            min-width: 300px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            scroll-snap-align: start;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1e90ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .author-info h4 {
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .author-info p {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .newsletter-section {
+            background-color: #1e90ff;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .newsletter-title {
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-description {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+        }
+
+        .newsletter-button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #1e90ff;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #1e90ff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            background-color: #e6f4ff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-input {
+                border-radius: 25px;
+                margin-bottom: 1rem;
+            }
+            .newsletter-button {
+                border-radius: 25px;
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🛍️</span>
+            <span>OneStop</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="expense.html">Expense</a></li>
+            <li><a href="flight.html">Flight</a></li>
+        </ul>
+        
+        <div class="user-actions">
+            <a href="profile.html"><button class="profile-icon">👤</button></a>
+            
+            <div class="cart-icon" style="position: relative;">
+                🛒
+                <span class="badge">3</span>
+            </div>
+        </div>
+        
+        <div class="menu-icon">☰</div>
+    </header>
+
+    <section class="hero-section">
+        <h1 class="hero-title">Discover Products You'll Love</h1>
+        <p class="hero-subtitle">Exclusive offers and amazing deals await you!</p>
+        <button class="hero-button">Shop Now</button>
+    </section>
+
+    <section class="search-section">
+        <h2>Find <span>What You Need</span></h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for products...">
+            <div class="search-icon">🔍</div>
+        </div>
+    </section>
+
+    <section class="category-section">
+        <h2 class="category-title">Popular Categories</h2>
+        <div class="category-container">
+            <div class="category-item">
+               <a href="proelec.html"> <button class="category-icon">📱</button></a>
+                <p class="category-name">Electronics</p>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">👕</div>
+                <p class="category-name">Fashion</p>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🏠</div>
+                <p class="category-name">Home</p>
+            </div>
+            <div class="category-item">
+                <a href="probeauty.html"><button class="category-icon">💄</button></a>
+                <p class="category-name">Beauty</p>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🎮</div>
+                <p class="category-name">Gaming</p>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title">Featured Offers</h2>
+    <main class="card-container">
+        <div class="card">
+            <span class="card-badge">FREE</span>
+            <div class="card-content">
+                <h3 class="card-title">Check your Cibil score for free</h3>
+                <p class="card-description">Get instant access to your credit report without affecting your score.</p>
+                <a href="cibil1.html"><button class="card-button">Check Now</button></a>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="card-badge">10% OFF</span>
+            <div class="card-content">
+                <h3 class="card-title">Cash back on Mobile Recharges</h3>
+                <p class="card-description">Enjoy 10% cash back on all mobile recharges and bill payments.</p>
+                <div class="card-price">Up to $50 cashback</div>
+                <button class="card-button">Recharge Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="card-badge">SALE</span>
+            <div class="card-content">
+                <h3 class="card-title">Electronics Super Sale</h3>
+                <p class="card-description">Limited time offers on the latest gadgets and electronics.</p>
+                <div class="card-price">Up to 40% off</div>
+                <a href="proelec.html"><button class="card-button">Shop Now</button></a>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="card-badge">HOT</span>
+            <div class="card-content">
+                <h3 class="card-title">Travel Packages</h3>
+                <p class="card-description">Exclusive deals on flights, hotels, and vacation packages.</p>
+                <div class="card-price">Starting at $299</div>
+                <a href="flight.html"><button class="card-button">Explore</button></a>
+            </div>
+        </div>
+    </main>
+
+    <section class="featured-section">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="featured-container">
+            <div class="featured-item">
+                <div class="featured-icon">🚚</div>
+                <h3 class="featured-title">Free Shipping</h3>
+                <p class="featured-description">On orders over $50</p>
+            </div>
+            <div class="featured-item">
+                <div class="featured-icon">🔄</div>
+                <h3 class="featured-title">Easy Returns</h3>
+                <p class="featured-description">30-day money back guarantee</p>
+            </div>
+            <div class="featured-item">
+                <div class="featured-icon">🔒</div>
+                <h3 class="featured-title">Secure Payment</h3>
+                <p class="featured-description">100% secure payment</p>
+            </div>
+            <div class="featured-item">
+                <div class="featured-icon">💬</div>
+                <h3 class="featured-title">24/7 Support</h3>
+                <p class="featured-description">Dedicated support</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial-section">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <p class="testimonial-content">"I've been shopping here for years and the quality never disappoints. The customer service is exceptional!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JD</div>
+                    <div class="author-info">
+                        <h4>John Doe</h4>
+                        <p>Loyal Customer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-content">"The deals are amazing and shipping is always on time. I recommend this site to all my friends!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JS</div>
+                    <div class="author-info">
+                        <h4>Jane Smith</h4>
+                        <p>New Customer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-content">"Found the best electronics at unbeatable prices. The return policy is also very customer-friendly."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RB</div>
+                    <div class="author-info">
+                        <h4>Robert Brown</h4>
+                        <p>Tech Enthusiast</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter-section">
+        <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
+        <p class="newsletter-description">Get the latest updates, deals, and exclusive offers directly to your inbox!</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email address" class="newsletter-input">
+            <button class="newsletter-button">Subscribe</button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Help & Support</h3>
+                <ul>
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                    <li><a href="#">Order History</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Phone: 079-12345</li>
+                    <li>Email: info@productswant.com</li>
+                    <li>Working hours: 9AM - 6PM</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+                    <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+                    <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-icon" aria-label="LinkedIn">🔗</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Products You WANT. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

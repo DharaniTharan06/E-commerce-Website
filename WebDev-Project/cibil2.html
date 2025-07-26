@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #E3F2FD;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(135deg, #2196F3, #1565C0);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+            transform: translateY(-100%);
+            animation: slideDown 0.6s ease forwards;
+        }
+
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 24px;
+            outline: none;
+            transition: 0.3s ease-in-out;
+            font-size: 14px;
+        }
+
+        .search-bar input:focus {
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        main {
+            padding: 2.5rem;
+            flex: 1;
+            animation: fadeIn 0.8s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            margin-bottom: 2.5rem;
+            font-size: 1.8rem;
+            color: #333;
+            text-align: center;
+            position: relative;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #2196F3;
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            background: #f5f5f5;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            font-size: 15px;
+        }
+
+        .form-group input:focus {
+            background: #ffffff;
+            box-shadow: 0px 4px 12px rgba(33, 150, 243, 0.2);
+            border-color: #2196F3;
+            outline: none;
+        }
+
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .hint {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 0.4rem;
+            font-style: italic;
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease-in-out;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #1E88E5, #0D47A1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            background: linear-gradient(to right, #BBDEFB, #E3F2FD);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: #1565C0;
+            position: relative;
+        }
+
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: #1976D2;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.7rem;
+            color: #555;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            font-size: 14px;
+        }
+
+        .footer-section li:hover {
+            color: #1976D2;
+            transform: translateX(5px);
+        }
+
+        .footer-section p {
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* CIBIL Score Overlay */
+        .cibil-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .cibil-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #1976D2;
+            transform: scale(1.2);
+        }
+
+        .score-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 1rem;
+        }
+
+        .score-meter {
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(to right, #FF5252, #FFAB40, #66BB6A);
+            border-radius: 10px;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .score-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .score-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .excellent {
+            background: rgba(102, 187, 106, 0.2);
+            color: #2E7D32;
+        }
+
+        .good {
+            background: rgba(255, 171, 64, 0.2);
+            color: #EF6C00;
+        }
+
+        .poor {
+            background: rgba(255, 82, 82, 0.2);
+            color: #C62828;
+        }
+
+        /* Form validation styles */
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .invalid {
+            border-color: #f44336 !important;
+            background: rgba(244, 67, 54, 0.05) !important;
+        }
+
+        /* Input icons */
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon input {
+            padding-left: 40px;
+        }
+
+        .input-icon:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .pan-icon:before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>') no-repeat center center;
+        }
+
+        .aadhar-icon:before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>') no-repeat center center;
+        }
+
+        .user-icon:before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>') no-repeat center center;
+        }
+
+        /* Loading animation */
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(33, 150, 243, 0.2);
+            border-radius: 50%;
+            border-top-color: #2196F3;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -20px;
+            margin-left: -20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            footer {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            main {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .name-group {
+                grid-template-columns: 1fr;
+            }
+            
+            footer {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .cibil-card {
+                padding: 1.5rem;
+            }
+            
+            .score-value {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="cibil1.html"><button class="back-btn">✕</button></a>
+            <div class="search-bar">
+                <input type="search" placeholder="Search for Contacts">
+                <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="Profile" class="profile-icon">
+            </div>
+        </header>
+
+        <main>
+            <h2>Enter Your Details</h2>
+            
+            <form id="detailsForm">
+                <div class="form-group">
+                    <label>Enter PAN Number</label>
+                    <div class="input-icon pan-icon">
+                        <input type="text" id="panNumber" placeholder="ABCDE1234F" maxlength="10">
+                        <div class="error-message" id="panError">Please enter a valid 10-character PAN number</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Enter Aadhar</label>
+                    <div class="input-icon aadhar-icon">
+                        <input type="text" id="aadharNumber" placeholder="e.g., 1234 5678 9012" maxlength="12">
+                        <div class="error-message" id="aadharError">Please enter a valid 12-digit Aadhar number</div>
+                    </div>
+                </div>
+
+                <div class="name-group">
+                    <div class="form-group">
+                        <div class="input-icon user-icon">
+                            <input type="text" id="firstName" placeholder="First Name">
+                            <div class="error-message" id="firstNameError">First name is required</div>
+                        </div>
+                        <span class="hint">As in PAN Card</span>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon user-icon">
+                            <input type="text" id="lastName" placeholder="Last Name">
+                            <div class="error-message" id="lastNameError">Last name is required</div>
+                        </div>
+                        <span class="hint">As in PAN Card</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Get CIBIL Score</button>
+            </form>
+            
+            <div class="loader" id="loader"></div>
+        </main>
+
+        <footer>
+            <div class="footer-section">
+                <h3>Help</h3>
+                <ul>
+                    <li>Payment</li>
+                    <li>Cancellation</li>
+                    <li>History</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li>FAQ</li>
+                    <li>Contact Us</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Phone: 079-12345</p>
+                <p>Email: support@cibil.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Use</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CIBIL Score Overlay -->
+    <div class="cibil-overlay" id="cibilOverlay">
+        <div class="cibil-card">
+            <button class="close-btn" id="closeBtn">×</button>
+            <h3 class="score-title">Your CIBIL Score</h3>
+            <div class="score-value" id="scoreValue">785</div>
+            <div class="status excellent" id="scoreStatus">Excellent</div>
+            
+            <div class="score-meter">
+                <div class="score-fill" id="scoreFill" style="width: 78.5%"></div>
+            </div>
+            <div class="score-labels">
+                <span>Poor (300)</span>
+                <span>Good (700)</span>
+                <span>Excellent (900)</span>
+            </div>
+            
+            <div class="score-info">
+                <p>Your credit score is above average. Lenders view you as a responsible borrower. You qualify for most loans with favorable interest rates.</p>
+                <p><strong>Next steps:</strong> Continue maintaining timely payments and keep credit utilization below 30%.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('detailsForm');
+            const cibilOverlay = document.getElementById('cibilOverlay');
+            const closeBtn = document.getElementById('closeBtn');
+            const loader = document.getElementById('loader');
+            
+            // Form validation
+            const panInput = document.getElementById('panNumber');
+            const aadharInput = document.getElementById('aadharNumber');
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            
+            // Back button functionality
+            document.querySelector('.back-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to go back? Any unsaved data will be lost.')) {
+                    window.history.back();
+                }
+            });
+            
+            // Format Aadhar number as user types
+            aadharInput.addEventListener('input', function(e) {
+                // Remove any non-digit characters
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Limit to 12 digits
+                if (value.length > 12) {
+                    value = value.slice(0, 12);
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Format PAN as user types (uppercase)
+            panInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.toUpperCase();
+            });
+            
+            // Close CIBIL overlay
+            closeBtn.addEventListener('click', function() {
+                cibilOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Submit form
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                let isValid = true;
+                
+                // Validate PAN (10 characters)
+                const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+                if (!panRegex.test(panInput.value)) {
+                    document.getElementById('panError').style.display = 'block';
+                    panInput.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('panError').style.display = 'none';
+                    panInput.classList.remove('invalid');
+                }
+                
+                // Validate Aadhar (12 digits)
+                if (aadharInput.value.length !== 12) {
+                    document.getElementById('aadharError').style.display = 'block';
+                    aadharInput.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('aadharError').style.display = 'none';
+                    aadharInput.classList.remove('invalid');
+                }
+                
+                // Validate names
+                if (firstNameInput.value.trim() === '') {
+                    document.getElementById('firstNameError').style.display = 'block';
+                    firstNameInput.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('firstNameError').style.display = 'none';
+                    firstNameInput.classList.remove('invalid');
+                }
+                
+                if (lastNameInput.value.trim() === '') {
+                    document.getElementById('lastNameError').style.display = 'block';
+                    lastNameInput.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('lastNameError').style.display = 'none';
+                    lastNameInput.classList.remove('invalid');
+                }
+                
+                if (isValid) {
+                    // Show loading indicator
+                    loader.style.display = 'block';
+                    
+                    // Simulate API call delay
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        
+                        // Generate random score for demo purposes
+                        const randomScore = Math.floor(Math.random() * (850 - 550 + 1)) + 550;
+                        document.getElementById('scoreValue').textContent = randomScore;
+                        
+                        // Set score fill width
+                        const percentage = ((randomScore - 300) / (900 - 300)) * 100;
+                        document.getElementById('scoreFill').style.width = percentage + '%';
+                        
+                        // Set status text
+                        const scoreStatus = document.getElementById('scoreStatus');
+                        if (randomScore >= 750) {
+                            scoreStatus.textContent = 'Excellent';
+                            scoreStatus.className = 'status excellent';
+                        } else if (randomScore >= 650) {
+                            scoreStatus.textContent = 'Good';
+                            scoreStatus.className = 'status good';
+                        } else {
+                            scoreStatus.textContent = 'Poor';
+                            scoreStatus.className = 'status poor';
+                        }
+                        
+                        // Update score info text based on score range
+                        const scoreInfo = document.querySelector('.score-info');
+                        if (randomScore >= 750) {
+                            scoreInfo.innerHTML = `
+                                <p>Your credit score is excellent! Lenders view you as a very responsible borrower. You qualify for premium loans with the best interest rates available.</p>
+                                <p><strong>Next steps:</strong> Continue your excellent credit habits. Consider leveraging your high score for negotiating better terms on loans.</p>
+                            `;
+                        } else if (randomScore >= 650) {
+                            scoreInfo.innerHTML = `
+                                <p>Your credit score is good. Most lenders will approve your applications with favorable terms, though not the absolute best rates.</p>
+                                <p><strong>Next steps:</strong> To improve further, keep credit utilization below 30% and avoid opening too many new accounts.</p>
+                            `;
+                        } else {
+                            scoreInfo.innerHTML = `
+                                <p>Your credit score needs improvement. You may face higher interest rates or difficulty getting approved for certain loans.</p>
+                                <p><strong>Next steps:</strong> Focus on making all payments on time, reducing outstanding debt, and avoiding new credit applications for a while.</p>
+                            `;
+                        }
+                        
+                        // Show CIBIL overlay
+                        cibilOverlay.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    }, 1500);
+                }
+            });
+            
+            // Click outside to close overlay
+            cibilOverlay.addEventListener('click', function(e) {
+                if (e.target === cibilOverlay) {
+                    cibilOverlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

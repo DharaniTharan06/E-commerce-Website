@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f7f9fc;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: #4CA5DB;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .search-container {
+            flex: 1;
+            margin: 0 1rem;
+            position: relative;
+            max-width: 500px;
+        }
+
+        .search-container::before {
+            content: "🔍";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: none;
+            border-radius: 999px;
+            font-size: 0.9rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff5252;
+            color: white;
+            font-size: 0.7rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 72px - 80px); /* Viewport height minus header and footer */
+        }
+
+        .sidebar {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-right: 1px solid #e0e7ff;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu a:hover {
+            background: #e6f0ff;
+        }
+
+        .sidebar-menu a.active {
+            background: #4CA5DB;
+            color: white;
+        }
+
+        .sidebar-menu-icon {
+            margin-right: 0.75rem;
+        }
+
+        .content {
+            padding: 1.5rem;
+        }
+
+        .flight-types {
+            background: #87CEEB;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 25px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .flight-type-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .flight-type-btn.active {
+            background: white;
+            color: #4CA5DB;
+        }
+
+        .flight-selectors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flight-selector {
+            background: #87CEEB;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .flight-selector-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .city-inputs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .city-input {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            width: 45%;
+        }
+
+        .arrow {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .date-time-selectors {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .date-input, .time-input, .passenger-input, .class-input {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .additional-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .find-flights-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: #4CA5DB;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+
+        .find-flights-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .deals-section {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .deals-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .deal-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .deal-image {
+            height: 100px;
+            background: #4CA5DB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .deal-content {
+            padding: 1rem;
+        }
+
+        .deal-destination {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .deal-price {
+            color: #4CA5DB;
+            font-weight: 600;
+        }
+
+        .deal-date {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .bookings {
+            margin-bottom: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .bookings-title {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            background: #f7f9fc;
+        }
+
+        .booking-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+
+        .booking-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-route {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-date {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-confirmed {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        .status-upcoming {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .status-completed {
+            background: #e9e9e9;
+            color: #4a5568;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .links a {
+            color: #4CA5DB;
+            text-decoration: none;
+        }
+
+        .footer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            background: #f7f9fc;
+        }
+
+        .footer-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: #4a5568;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #4CA5DB;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+            z-index: 100;
+            margin-top: 10px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-dropdown ul {
+            list-style: none;
+        }
+
+        .profile-dropdown li {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .profile-dropdown li:hover {
+            background: #f5f5f5;
+        }
+
+        .profile-dropdown li a {
+            text-decoration: none;
+            color: #4a5568;
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .airline-select {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: #4CA5DB;
+            cursor: pointer;
+        }
+
+        .airline-select option {
+            background: white;
+            color: #4a5568;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .flight-selectors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const profileBtn = document.querySelector(".profile-btn");
+            const profileDropdown = document.querySelector(".profile-dropdown");
+            const localFlightsBtn = document.getElementById("localFlightsBtn");
+            const internationalFlightsBtn = document.getElementById("internationalFlightsBtn");
+            const fromInput = document.getElementById("fromCity");
+            const toInput = document.getElementById("toCity");
+            const oneWayBtn = document.getElementById("oneWayBtn");
+            const roundTripBtn = document.getElementById("roundTripBtn");
+            const multiCityBtn = document.getElementById("multiCityBtn");
+            const departureDate = document.getElementById("departureDate");
+            const returnDate = document.getElementById("returnDate");
+            const returnDateContainer = document.getElementById("returnDateContainer");
+            const closeBtn = document.getElementById("closeBtn");
+
+            // Set current date for departure and return dates
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            departureDate.valueAsDate = today;
+            returnDate.valueAsDate = tomorrow;
+            
+            // Close button to navigate to home.html
+            closeBtn.addEventListener("click", function() {
+                window.location.href = "home.html";
+            });
+            
+            // Profile dropdown toggle
+            profileBtn.addEventListener("click", function (event) {
+                event.stopPropagation();
+                profileDropdown.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!profileBtn.contains(event.target) && !profileDropdown.contains(event.target)) {
+                    profileDropdown.classList.add("hidden");
+                }
+            });
+
+            // Flight type toggle functionality (one-way, round-trip, multi-city)
+            oneWayBtn.addEventListener("click", function() {
+                oneWayBtn.classList.add("active");
+                roundTripBtn.classList.remove("active");
+                multiCityBtn.classList.remove("active");
+                returnDateContainer.style.display = "none";
+            });
+
+            roundTripBtn.addEventListener("click", function() {
+                roundTripBtn.classList.add("active");
+                oneWayBtn.classList.remove("active");
+                multiCityBtn.classList.remove("active");
+                returnDateContainer.style.display = "block";
+            });
+
+            multiCityBtn.addEventListener("click", function() {
+                multiCityBtn.classList.add("active");
+                oneWayBtn.classList.remove("active");
+                roundTripBtn.classList.remove("active");
+                returnDateContainer.style.display = "block";
+            });
+
+            // Indian cities for local flights
+            const indianCities = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Bangalore", "Hyderabad", "Ahmedabad", "Pune", "Jaipur", "Kochi"];
+            
+            // International cities
+            const internationalCities = ["New York", "London", "Tokyo", "Paris", "Dubai", "Singapore", "Barcelona", "Sydney", "Berlin", "Toronto"];
+
+            // Flight geography toggle functionality
+            localFlightsBtn.addEventListener("click", function() {
+                localFlightsBtn.classList.add("active");
+                internationalFlightsBtn.classList.remove("active");
+                
+                // Set default Indian cities when local is selected
+                fromInput.value = indianCities[0];
+                toInput.value = indianCities[2];
+            });
+
+            internationalFlightsBtn.addEventListener("click", function() {
+                internationalFlightsBtn.classList.add("active");
+                localFlightsBtn.classList.remove("active");
+                
+                // Set default international cities when international is selected
+                fromInput.value = "Chennai";
+                toInput.value = "Barcelona";
+            });
+
+            // Add click events for city inputs to show options
+            fromInput.addEventListener("click", function() {
+                if (localFlightsBtn.classList.contains("active")) {
+                    showCitySelection(fromInput, indianCities);
+                } else {
+                    showCitySelection(fromInput, ["Chennai"].concat(internationalCities));
+                }
+            });
+
+            toInput.addEventListener("click", function() {
+                if (localFlightsBtn.classList.contains("active")) {
+                    showCitySelection(toInput, indianCities);
+                } else {
+                    showCitySelection(toInput, internationalCities);
+                }
+            });
+
+            function showCitySelection(input, cities) {
+                const currentValue = input.value;
+                const select = document.createElement("select");
+                select.style.width = "100%";
+                select.style.padding = "0.75rem 1.5rem";
+                select.style.border = "none";
+                select.style.borderRadius = "20px";
+                select.style.fontSize = "0.9rem";
+                
+                cities.forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    if (city === currentValue) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener("change", function() {
+                    input.value = this.value;
+                    input.parentNode.replaceChild(input, this);
+                });
+                
+                input.parentNode.replaceChild(select, input);
+                select.focus();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            
+            <button id="closeBtn" class="close-btn">×</button>
+            <div class="logo">
+                <span class="logo-icon">✈️</span>
+                <span>One Stop</span>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for flights, destinations, or services">
+            </div>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                <a href="profile.html"><button class="profile-btn">👤</button></a>
+                
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="flight-types">
+                <button id="oneWayBtn" class="flight-type-btn">One Way</button>
+                <button id="roundTripBtn" class="flight-type-btn active">Round Trip</button>
+                <button id="multiCityBtn" class="flight-type-btn">Multi-City</button>
+                <button id="localFlightsBtn" class="flight-type-btn">Local Flights</button>
+                <button id="internationalFlightsBtn" class="flight-type-btn active">International Flights</button>
+                <select class="airline-select">
+                    <option value="all">All Airlines</option>
+                    <option value="indigo">IndiGo</option>
+                    <option value="airIndia">Air India</option>
+                    <option value="vistara">Vistara</option>
+                    <option value="spiceJet">SpiceJet</option>
+                    <option value="goFirst">Go First</option>
+                    <option value="emirates">Emirates</option>
+                    <option value="lufthansa">Lufthansa</option>
+                    <option value="britishAirways">British Airways</option>
+                    <option value="qatarAirways">Qatar Airways</option>
+                </select>
+            </div>
+
+            <div class="flight-selectors-grid">
+                <div class="flight-selector">
+                    <h3 class="flight-selector-title">Flight Details</h3>
+                    <div class="city-inputs">
+                        <input type="text" id="fromCity" class="city-input" value="Chennai" readonly>
+                        <span class="arrow">→</span>
+                        <input type="text" id="toCity" class="city-input" value="Barcelona" readonly>
+                    </div>
+                    
+                    <div class="date-time-selectors">
+                        <div>
+                            <input type="date" id="departureDate" class="date-input">
+                        </div>
+                        <div id="returnDateContainer">
+                            <input type="date" id="returnDate" class="date-input">
+                        </div>
+                    </div>
+                    
+                    <div class="additional-options">
+                        <select class="passenger-input">
+                            <option value="1">1 Passenger</option>
+                            <option value="2" selected>2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                            <option value="5">5+ Passengers</option>
+                        </select>
+                        
+                        <select class="class-input">
+                            <option value="economy">Economy</option>
+                            <option value="premium">Premium Economy</option>
+                            <option value="business">Business</option>
+                            <option value="first">First Class</option>
+                        </select>
+                    </div>
+                    
+                    <button class="find-flights-btn">
+                        <a href="booking.html"><span>Find Flights</span></a>
+                        <span>09</span>
+                    </button>
+                </div>
+                
+                <div class="flight-selector">
+                    <h3 class="flight-selector-title">Special Offers</h3>
+                    <div style="color: white; margin-bottom: 1rem;">
+                        <p>✓ Save up to 25% on international flights</p>
+                        <p>✓ Use code SKYTRIP for extra 10% discount</p>
+                        <p>✓ Free meal and seat selection on premium bookings</p>
+                        <p>✓ No cancellation charges on changes made 48 hours before departure</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <input type="checkbox" id="flexibleDates" style="accent-color: white;">
+                        <label for="flexibleDates" style="color: white;">Show flexible dates for better deals</label>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="checkbox" id="directFlights" style="accent-color: white;">
+                        <label for="directFlights" style="color: white;">Only show direct flights</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deals-section">
+                <h3 class="deals-title">Hot Deals</h3>
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="deal-image">London</div>
+                        <div class="deal-content">
+                            <div class="deal-destination">Chennai → London</div>
+                            <div class="deal-price">₹42,999</div>
+                            <div class="deal-date">Mar 10 - Mar 17</div>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">New York</div>
+                        <div class="deal-content">
+                            <div class="deal-destination">Delhi → New York</div>
+                            <div class="deal-price">₹59,999</div>
+                            <div class="deal-date">Apr 5 - Apr 15</div>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">Dubai</div>
+                        <div class="deal-content">
+                            <div class="deal-destination">Mumbai → Dubai</div>
+                            <div class="deal-price">₹24,999</div>
+                            <div class="deal-date">Mar 20 - Mar 27</div>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">Singapore</div>
+                        <div class="deal-content">
+                            <div class="deal-destination">Chennai → Singapore</div>
+                            <div class="deal-price">₹29,999</div>
+                            <div class="deal-date">Apr 12 - Apr 19</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bookings">
+                <div class="bookings-title">Previous Bookings</div>
+                <div class="booking-item">
+                    <div class="booking-details">
+                        <div class="booking-route">Chennai → New York</div>
+                        <div class="booking-date">Feb 15, 2025 • Emirates</div>
+                    </div>
+                    <span class="booking-status status-upcoming">Upcoming</span>
+                </div>
+                <div class="booking-item">
+                    <div class="booking-details">
+                        <div class="booking-route">Seoul → Chennai</div>
+                        <div class="booking-date">Jan 23, 2025 • Korean Air</div>
+                    </div>
+                    <span class="booking-status status-completed">Completed</span>
+                </div>
+                <div class="booking-item">
+                    <div class="booking-details">
+                        <div class="booking-route">London → Delhi</div>
+                        <div class="booking-date">Dec 10, 2024 • British Airways</div>
+                    </div>
+                    <span class="booking-status status-completed">Completed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="#">Help Center</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Fare Rules</a>
+        </div>
+
+        <div class="footer">
+            <div class="footer-section">
+                <h3>Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Cancellation & Refunds</a></li>
+                    <li><a href="#">Booking History</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Partner Airlines</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.goindigo.in/">IndiGo</a></li>
+                    <li><a href="https://www.airindia.com/">Air India</a></li>
+                    <li><a href="https://www.airvistara.com/">Vistara</a></li>
+                    <li><a href="https://www.emirates.com/">Emirates</a></li>
+                    <li><a href="https://www.qatarairways.com/">Qatar Airways</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

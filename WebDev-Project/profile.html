@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Profile - Dashboard</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #f0f9ff; /* Lighter sky blue background */
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 1400px;
+      margin: auto;
+      padding: 30px;
+    }
+    .navbar {
+      background: #0ea5e9; /* Sky blue */
+      color: white;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      margin-bottom: 30px;
+    }
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 6px solid white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .profile-name h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .profile-name p {
+      font-size: 18px;
+      margin-top: 0;
+      opacity: 0.9;
+    }
+    .profile-content {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+    .profile-section {
+      margin-bottom: 30px;
+    }
+    .profile-section h3 {
+      color: #0369a1;
+      font-size: 24px;
+      border-bottom: 2px solid #e0f2fe;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .profile-section p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #334155;
+      margin: 15px 0;
+    }
+    .profile-section strong {
+      color: #0369a1;
+      width: 150px;
+      display: inline-block;
+    }
+    .edit-profile-button {
+      background: white;
+      color: #0ea5e9;
+      border: 2px solid #0ea5e9;
+      padding: 14px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .edit-profile-button:hover {
+      background: #0ea5e9;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(14, 165, 233, 0.3);
+    }
+    /* Additional sections to use more space */
+    .additional-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .stats-card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+    .stats-card h3 {
+      color: #0369a1;
+      font-size: 24px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e0f2fe;
+      padding-bottom: 10px;
+    }
+    .stat-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .stat-icon {
+      background: #e0f2fe;
+      color: #0ea5e9;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      font-size: 24px;
+    }
+    .stat-info h4 {
+      margin: 0;
+      color: #334155;
+      font-size: 18px;
+    }
+    .stat-info p {
+      margin: 5px 0 0;
+      color: #0ea5e9;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <div class="container">
+    <div class="navbar">
+      <a href="home.html"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-bell"></i></a>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-info">
+        <img src="https://source.unsplash.com/150x150/?person,india" alt="Profile" class="profile-avatar" />
+        <div class="profile-name">
+          <h2>Rahul Sharma</h2>
+          <p>rahul.sharma@example.com</p>
+        </div>
+      </div>
+      <a href="edit.html" class="edit-profile-button"><i class="fas fa-user-edit"></i> Edit Profile</a>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-section">
+        <h3>Personal Information</h3>
+        <p><strong>Full Name:</strong> Rahul Sharma</p>
+        <p><strong>Email:</strong> rahul.sharma@example.com</p>
+        <p><strong>Phone:</strong> +91 98765 43210</p>
+        <p><strong>Location:</strong> Mumbai, India</p>
+        <p><strong>Joined:</strong> January 15, 2023</p>
+        <p><strong>Status:</strong> Active</p>
+      </div>
+    </div>
+
+    <!-- Additional content to use more space -->
+    <div class="additional-content">
+      <div class="stats-card">
+        <h3>Account Statistics</h3>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Days Active</h4>
+            <p>365</p>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Achievements</h4>
+            <p>12</p>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Rating</h4>
+            <p>4.8/5</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <h3>Recent Activity</h3>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Last Login</h4>
+            <p>Today, 09:45 AM</p>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Completed Tasks</h4>
+            <p>28</p>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-comment"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Messages</h4>
+            <p>16</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

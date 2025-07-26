@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #87CEEB;
+            color: #333;
+        }
+
+        .reset-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .back-arrow {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1E90FF;
+        }
+
+        .send-code-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #1E90FF;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: background-color 0.2s;
+        }
+
+        .send-code-btn:hover {
+            background-color: #4682B4;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .footer a {
+            color: #1E90FF;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .dark-mode {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #666;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="reset-container">
+        <div class="dark-mode">Light</div>
+        <div class="header">
+            <a href="#" class="back-arrow">←</a>
+            <h2>Reset Your Password</h2>
+        </div>
+        <p class="description">Enter your email or phone number to get the code</p>
+        <div class="input-group">
+            <input type="text" placeholder="Email or Phone number" required>
+        </div>
+        <a href="alter.html"><button type="submit" class="send-code-btn">Send code</button></a>
+        <div class="footer">
+            <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
+        </div>
+    </div>
+</body>
+</html>

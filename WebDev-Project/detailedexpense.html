@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            padding: 1rem;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(135, 206, 235, 0.2);
+            padding: 1.5rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e6f2f9;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #4a90e2;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #2a6fc9;
+        }
+
+        .search-container {
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d6ebf5;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f5fafd;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #87ceeb;
+            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
+        }
+
+        .profile-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-btn:hover {
+            background: #2a6fc9;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .toggle-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 999px;
+            background: #e1f0f7;
+            color: #4a90e2;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #d1e7f5;
+        }
+
+        .toggle-btn.active {
+            background: #4a90e2;
+            color: white;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+
+        .amount-display {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: #f5fafd;
+            border-radius: 12px;
+        }
+
+        .amount {
+            color: #4a90e2;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .period {
+            color: #666;
+            font-size: 1.25rem;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 20rem;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e6f2f9;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 0 0.5rem;
+        }
+
+        .bar-group:hover {
+            transform: translateY(-5px);
+        }
+
+        .bar {
+            width: 3rem;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            background: #a9d0f5;
+            transition: all 0.3s;
+        }
+
+        .bar.current {
+            background: #4a90e2;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+
+        .bar-label {
+            color: #666;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 4.5rem;
+            right: 1rem;
+            background: white;
+            border: 1px solid #e6f2f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 180px;
+            padding: 0.5rem 0;
+            z-index: 10;
+        }
+
+        .profile-dropdown ul {
+            list-style: none;
+        }
+
+        .profile-dropdown li {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .profile-dropdown li:hover {
+            background: #f0f9ff;
+        }
+
+        .profile-dropdown a {
+            color: #4a90e2;
+            text-decoration: none;
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #4a90e2;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .view-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .view-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #d6ebf5;
+            border-radius: 8px;
+            background-color: #f5fafd;
+            color: #4a90e2;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-select:focus {
+            outline: none;
+            border-color: #87ceeb;
+            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .bar {
+                width: 2.5rem;
+            }
+            
+            .amount {
+                font-size: 2.5rem;
+            }
+            
+            .toggle-container {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .toggle-btn {
+                width: 80%;
+            }
+            
+            .bar {
+                width: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <a href="expense.html"><button class="close-btn">×</button></a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for Contacts">
+            </div>
+            <button class="profile-btn">👤</button>
+            <div class="profile-dropdown hidden">
+                <ul>
+                    <li><a href="#">View Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="toggle-container">
+            <button class="toggle-btn">Daily</button>
+            <button class="toggle-btn">Monthly</button>
+            <button class="toggle-btn active">Yearly</button>
+        </div>
+
+        <div class="view-selector">
+            <select id="view-select" class="view-select">
+                <option value="default">Select View</option>
+            </select>
+        </div>
+
+        <div class="amount-display">
+            <div class="amount">$20,180.67</div>
+            <div class="period">2024</div>
+        </div>
+
+        <div class="chart-title">Financial Performance</div>
+        <div class="chart-container" id="chart-container">
+            <!-- Chart bars will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Data for all views
+            const yearlyData = {
+                2019: "$10,500.25",
+                2020: "$13,200.80",
+                2021: "$12,750.40",
+                2022: "$9,600.10",
+                2023: "$15,900.55",
+                2024: "$20,180.67"
+            };
+
+            const monthlyData = {
+                "January": "$1,680.50",
+                "February": "$1,520.30",
+                "March": "$1,750.80",
+                "April": "$1,605.40",
+                "May": "$1,890.20",
+                "June": "$1,720.60",
+                "July": "$1,560.90",
+                "August": "$1,630.70",
+                "September": "$1,580.40",
+                "October": "$1,700.10",
+                "November": "$1,820.50",
+                "December": "$1,940.80"
+            };
+
+            const dailyData = {
+                "Sunday": "$45.20",
+                "Monday": "$58.70",
+                "Tuesday": "$62.30",
+                "Wednesday": "$56.02",
+                "Thursday": "$59.80",
+                "Friday": "$72.40",
+                "Saturday": "$51.60"
+            };
+
+            // Heights for visualization (percentages)
+            const yearlyHeights = {
+                2019: 50,
+                2020: 65,
+                2021: 60,
+                2022: 45,
+                2023: 75,
+                2024: 100
+            };
+
+            const monthlyHeights = {
+                "January": 85,
+                "February": 75,
+                "March": 90,
+                "April": 80,
+                "May": 95,
+                "June": 85,
+                "July": 78,
+                "August": 82,
+                "September": 79,
+                "October": 85,
+                "November": 92,
+                "December": 100
+            };
+
+            const dailyHeights = {
+                "Sunday": 62,
+                "Monday": 80,
+                "Tuesday": 85,
+                "Wednesday": 77,
+                "Thursday": 82,
+                "Friday": 100,
+                "Saturday": 70
+            };
+
+            // Elements
+            const toggleButtons = document.querySelectorAll(".toggle-btn");
+            const amountDisplay = document.querySelector(".amount");
+            const periodDisplay = document.querySelector(".period");
+            const chartContainer = document.getElementById("chart-container");
+            const viewSelect = document.getElementById("view-select");
+            const chartTitle = document.querySelector(".chart-title");
+            
+            // Current state
+            let currentView = "Yearly";
+            let currentPeriod = "2024";
+            
+            // Functions to update the UI
+            function updateChart(viewType, data, heights) {
+                // Clear existing chart
+                chartContainer.innerHTML = "";
+                
+                // Add new bars
+                Object.keys(data).forEach(period => {
+                    const barGroup = document.createElement("div");
+                    barGroup.className = "bar-group";
+                    barGroup.dataset.period = period;
+                    
+                    const bar = document.createElement("div");
+                    bar.className = "bar";
+                    bar.style.height = heights[period] + "%";
+                    
+                    // Set the current period as active
+                    if (period === currentPeriod) {
+                        bar.classList.add("current");
+                    }
+                    
+                    const label = document.createElement("span");
+                    label.className = "bar-label";
+                    label.textContent = period;
+                    
+                    barGroup.appendChild(bar);
+                    barGroup.appendChild(label);
+                    chartContainer.appendChild(barGroup);
+                    
+                    // Add click event to bar group
+                    barGroup.addEventListener("click", function() {
+                        // Remove current class from all bars
+                        document.querySelectorAll(".bar").forEach(b => b.classList.remove("current"));
+                        
+                        // Add current class to clicked bar
+                        bar.classList.add("current");
+                        
+                        // Update current period
+                        currentPeriod = period;
+                        
+                        // Update amount display
+                        amountDisplay.textContent = data[period];
+                        periodDisplay.textContent = period;
+                    });
+                    
+                    // Add hover effects
+                    barGroup.addEventListener("mouseenter", function() {
+                        if (!bar.classList.contains("current")) {
+                            bar.style.background = "#87ceeb";
+                        }
+                    });
+                    
+                    barGroup.addEventListener("mouseleave", function() {
+                        if (!bar.classList.contains("current")) {
+                            bar.style.background = "#a9d0f5";
+                        }
+                    });
+                });
+                
+                // Animate bars
+                setTimeout(() => {
+                    const bars = document.querySelectorAll(".bar");
+                    bars.forEach(bar => {
+                        const originalHeight = bar.style.height;
+                        bar.style.height = "0%";
+                        
+                        setTimeout(() => {
+                            bar.style.transition = "height 1s ease-out";
+                            bar.style.height = originalHeight;
+                        }, 100);
+                    });
+                }, 100);
+            }
+            
+            function updateViewSelect(viewType) {
+                // Clear select options
+                viewSelect.innerHTML = "";
+                
+                // Add default option
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "default";
+                defaultOption.textContent = "Select " + viewType;
+                viewSelect.appendChild(defaultOption);
+                
+                // Add data options based on view type
+                let data;
+                if (viewType === "Yearly") {
+                    data = yearlyData;
+                    chartTitle.textContent = "Annual Financial Performance";
+                } else if (viewType === "Monthly") {
+                    data = monthlyData;
+                    chartTitle.textContent = "Monthly Financial Performance";
+                } else if (viewType === "Daily") {
+                    data = dailyData;
+                    chartTitle.textContent = "Daily Financial Performance";
+                }
+                
+                Object.keys(data).forEach(period => {
+                    const option = document.createElement("option");
+                    option.value = period;
+                    option.textContent = period;
+                    viewSelect.appendChild(option);
+                });
+                
+                // Set current period as selected if it exists in the new view
+                if (data[currentPeriod]) {
+                    viewSelect.value = currentPeriod;
+                } else {
+                    // Set first item as current period if current doesn't exist in new view
+                    currentPeriod = Object.keys(data)[0];
+                    viewSelect.value = currentPeriod;
+                }
+                
+                // Update amount display
+                amountDisplay.textContent = data[currentPeriod];
+                periodDisplay.textContent = currentPeriod;
+            }
+            
+            // Initialize with yearly view
+            updateViewSelect("Yearly");
+            updateChart("Yearly", yearlyData, yearlyHeights);
+            
+            // Toggle button event listeners
+            toggleButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    toggleButtons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+                    
+                    currentView = this.textContent;
+                    
+                    if (currentView === "Yearly") {
+                        updateViewSelect("Yearly");
+                        updateChart("Yearly", yearlyData, yearlyHeights);
+                    } else if (currentView === "Monthly") {
+                        updateViewSelect("Monthly");
+                        updateChart("Monthly", monthlyData, monthlyHeights);
+                    } else if (currentView === "Daily") {
+                        updateViewSelect("Daily");
+                        updateChart("Daily", dailyData, dailyHeights);
+                    }
+                });
+            });
+            
+            // View select event listener
+            viewSelect.addEventListener("change", function() {
+                if (this.value !== "default") {
+                    currentPeriod = this.value;
+                    
+                    // Update amount display based on current view
+                    if (currentView === "Yearly") {
+                        amountDisplay.textContent = yearlyData[currentPeriod];
+                    } else if (currentView === "Monthly") {
+                        amountDisplay.textContent = monthlyData[currentPeriod];
+                    } else if (currentView === "Daily") {
+                        amountDisplay.textContent = dailyData[currentPeriod];
+                    }
+                    
+                    periodDisplay.textContent = currentPeriod;
+                    
+                    // Update current bar
+                    document.querySelectorAll(".bar").forEach(bar => bar.classList.remove("current"));
+                    const barGroups = document.querySelectorAll(".bar-group");
+                    barGroups.forEach(group => {
+                        if (group.dataset.period === currentPeriod) {
+                            group.querySelector(".bar").classList.add("current");
+                        }
+                    });
+                }
+            });
+
+            // Profile dropdown functionality
+            const profileBtn = document.querySelector(".profile-btn");
+            const profileDropdown = document.querySelector(".profile-dropdown");
+
+            profileBtn.addEventListener("click", function(event) {
+                event.stopPropagation();
+                profileDropdown.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function(event) {
+                if (!profileBtn.contains(event.target) && !profileDropdown.contains(event.target)) {
+                    profileDropdown.classList.add("hidden");
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

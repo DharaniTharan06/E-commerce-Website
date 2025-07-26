@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blend Card Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #87CEEB;
+            color: #333;
+        }
+
+        .card-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            color: #1E90FF;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-size: 1rem;
+        }
+
+        .expiry-cvv-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .expiry-cvv-group input {
+            width: 120px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.25rem;
+        }
+
+        .checkbox-group label {
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+
+        .checkbox-group label a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-cancel {
+            background-color: #ff4500;
+            color: white;
+        }
+
+        .btn-add {
+            background-color: #1E90FF;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #4682B4;
+        }
+    </style>
+    <script>
+        function addCard() {
+            alert("Card added successfully!");
+            setTimeout(function() {
+                window.location.href = "home.html";
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <div class="card-container">
+        <h2 class="form-header">Blend Card Details</h2>
+        <form onsubmit="event.preventDefault(); addCard();">
+            <div class="input-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" required>
+            </div>
+            <div class="input-group">
+                <label for="upiId">UPI ID</label>
+                <input type="text" id="upiId" required>
+            </div>
+            <div class="input-group">
+                <label for="cardHolder">Card Holder Name</label>
+                <input type="text" id="cardHolder" required>
+            </div>
+            <div class="input-group">
+                <label for="expiryDate">Card Expiry Date</label>
+                <input type="text" id="expiryDate" required>
+            </div>
+            <div class="expiry-cvv-group">
+                <input type="text" placeholder="MM/YY" required>
+                <input type="text" placeholder="CVV" required>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">By giving the details you are agreeing with our terms and conditions!!</label>
+            </div>
+            <div class="button-group">
+                <button type="button" class="btn btn-cancel">Cancel</button>
+                <button type="submit" class="btn btn-add">Add Card</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

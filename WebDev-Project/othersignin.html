@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in with Google</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #90caf9, #42a5f5);
+    }
+
+    .signin-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 400px;
+        color: black;
+        text-align: center;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .header h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .google-text {
+        color: #1976d2;
+    }
+
+    .account-option {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 8px;
+        background: #f1f1f1;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+        margin-bottom: 10px;
+    }
+
+    .account-option:hover {
+        background: #bbdefb;
+        transform: scale(1.05);
+    }
+
+    .account-option.selected {
+        background: #42a5f5;
+        color: white;
+    }
+
+    .account-avatar {
+        width: 50px;
+        height: 50px;
+        background: #64b5f6;
+        color: white;
+        border-radius: 50%;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .account-name {
+        font-weight: 600;
+    }
+
+    .account-email {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .divider {
+        text-align: center;
+        margin: 1rem 0;
+        color: #666;
+        position: relative;
+        font-weight: bold;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 40%;
+        height: 1px;
+        background: #bbb;
+    }
+
+    .divider::before {
+        left: 0;
+    }
+
+    .divider::after {
+        right: 0;
+    }
+
+    .phone-option {
+        padding: 1rem;
+        border-radius: 8px;
+        background: #f1f1f1;
+        color: #1976d2;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    .phone-option:hover {
+        background: #90caf9;
+        transform: scale(1.05);
+    }
+
+    .footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #bbb;
+    }
+
+    .footer a {
+        color: #1976d2;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s;
+    }
+
+    .footer a:hover {
+        color: #0d47a1;
+    }
+</style>
+<body>
+    <div class="signin-container">
+        <div class="header">
+            <h2>Sign in with <span class="google-text">Google</span></h2>
+        </div>
+        <div class="account-option" onclick="selectAccount(this)">
+            <div class="account-avatar">T</div>
+            <div class="account-details">
+                <div class="account-name">Thejeeshg</div>
+                <div class="account-email">thejeesh.g@gmail.com</div>
+            </div>
+        </div>
+        <div class="account-option" onclick="selectAccount(this)">
+            <div class="account-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+            <div class="account-details">
+                <div class="account-name">Use another account</div>
+            </div>
+        </div>
+        <div class="divider">or</div>
+        <div class="phone-option" onclick="selectAccount(this)">
+            Continue with Phone
+        </div>
+        <div class="footer">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+        </div>
+    </div>
+    
+    <script>
+        function selectAccount(element) {
+            let options = document.querySelectorAll('.account-option, .phone-option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+    
+            element.classList.add('selected');
+    
+            // Redirect to phone.html if "Continue with Phone" is clicked
+            if (element.classList.contains('phone-option')) {
+                window.location.href = "phone.html";
+            } else if (element.classList.contains('account-option')) {
+                // Redirect to card.html if any Gmail ID is selected
+                window.location.href = "card.html";
+            }
+        }
+    </script>
+    
+</body>
+</html>

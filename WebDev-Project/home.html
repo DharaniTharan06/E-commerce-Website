@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      background-color: #F9FAFB;
+    }
+
+    /* Horizontal Navigation Styles */
+    .navbar {
+      background-color: #1E293B;
+      padding: 1rem 2rem;
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .nav-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-items {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      color: #E5E7EB;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background-color: #374151;
+    }
+
+    .nav-item.active {
+      background-color: #374151;
+    }
+
+    /* Main Content Styles */
+    .content-wrapper {
+      margin-top: 4rem;
+      padding: 1rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .min-h-screen {
+      min-height: calc(100vh - 4rem);
+      background-color: #F9FAFB;
+      padding-top: 1rem;
+    }
+
+    /* Search and Profile */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
+      border: 1px solid #E5E7EB;
+      border-radius: 0.5rem;
+      outline: none;
+      transition: all 0.2s;
+      background-color: #374151;
+      color: white;
+    }
+
+    .search-input::placeholder {
+      color: #9CA3AF;
+    }
+
+    .search-input:focus {
+      background-color: white;
+      color: black;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.25rem;
+      height: 1.25rem;
+      color: #9CA3AF;
+    }
+
+    .profile-button {
+      background-color: #4b6fbd;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .profile-button:hover {
+      background-color: #1D4ED8;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-icon {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Main Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .main-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Section Cards */
+    .section-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    /* List Items */
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+    }
+
+    .list-item:hover {
+      background-color: #F9FAFB;
+    }
+
+    .item-icon {
+      background-color: #F3F4F6;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-title {
+      font-weight: 500;
+    }
+
+    .item-subtitle {
+      font-size: 0.875rem;
+      color: #6B7280;
+    }
+
+    /* Finance Items */
+    .finance-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+    }
+
+    .finance-item:hover {
+      background-color: #F9FAFB;
+    }
+
+    .finance-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .finance-icon {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Utility Classes */
+    .bg-blue-100 { background-color: #DBEAFE; }
+    .bg-green-100 { background-color: #D1FAE5; }
+    .bg-purple-100 { background-color: #EDE9FE; }
+    .bg-yellow-100 { background-color: #FEF3C7; }
+
+    .text-blue-600 { color: #2563EB; }
+    .text-green-600 { color: #059669; }
+    .text-purple-600 { color: #7C3AED; }
+    .text-yellow-600 { color: #D97706; }
+    .text-red-600 { color: #DC2626; }
+
+    .text-sm { font-size: 0.875rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-2xl { font-size: 1.5rem; }
+
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+
+    .text-gray-500 { color: #6B7280; }
+    .text-gray-900 { color: #111827; }
+
+    /* Contact Images */
+    .contact-image {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      object-fit: cover;
+    }
+
+    /* Action Buttons */
+    .action-button {
+      color: #2563EB;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .action-button:hover {
+      color: #1D4ED8;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .status-confirmed {
+      background-color: #D1FAE5;
+      color: #059669;
+    }
+    
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="navbar-brand">
+        <i data-lucide="layout-dashboard" size="24"></i>
+        <span class="text-lg font-semibold">Dashboard</span>
+      </div>
+      <div class="nav-items">
+        <a href="#" class="nav-item active">
+          <i data-lucide="home" size="20"></i>
+          <span>Home</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i data-lucide="shopping-cart" size="20"></i>
+          <span>Products</span>
+        </a>
+        <a href="flight.html" class="nav-item">
+          <i data-lucide="plane" size="20"></i>
+          <span>Flights</span>
+        </a>
+        
+        <a href="expense.html" class="nav-item">
+          <i data-lucide="wallet" size="20"></i>
+          <span>Finance</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="settings" size="20"></i>
+          <span>Settings</span>
+        </a>
+        
+
+      </div>
+      <div class="header-right">
+        
+        <button class="profile-button" onclick="window.location.href='profile.html'">Profile</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="min-h-screen">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-content">
+            <div>
+              <p class="text-sm text-gray-500">Total Sales</p>
+              <p class="text-2xl font-bold">$24,780</p>
+            </div>
+            <div class="stat-icon bg-blue-100">
+              <i data-lucide="shopping-cart" class="text-blue-600"></i>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-content">
+            <div>
+              <p class="text-sm text-gray-500">Flight Bookings</p>
+              <p class="text-2xl font-bold">126</p>
+            </div>
+            <div class="stat-icon bg-green-100">
+              <i data-lucide="plane" class="text-green-600"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="text-lg font-semibold">Popular Products</h2>
+            <a href="products.html"><button class="action-button">View all</button></a>
+          </div>
+          <div class="section-content" id="products-list">No data available.</div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="text-lg font-semibold">Upcoming Flights</h2>
+            <a href="flight.html"><button class="action-button">Book new</button></a>
+          </div>
+          <div class="section-content" id="flights-list">No flights scheduled.</div>
+        </div>
+
+        
+
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="text-lg font-semibold">Financial Overview</h2>
+            <a href="expense.html"><button class="action-button">View details</button></a>
+          </div>
+          <div class="section-content">
+            <div class="finance-item">
+              <div class="finance-info">
+                <div class="finance-icon bg-green-100">
+                  <i data-lucide="trending-up" class="text-green-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium">Income</p>
+                  <p class="text-sm text-gray-500">This month</p>
+                </div>
+              </div>
+              <p class="text-green-600 font-semibold">+$8,450</p>
+            </div>
+            <div class="finance-item">
+              <div class="finance-info">
+                <div class="finance-icon bg-red-100">
+                  <i data-lucide="trending-down" class="text-red-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium">Expenses</p>
+                  <p class="text-sm text-gray-500">This month</p>
+                </div>
+              </div>
+              <p class="text-red-600 font-semibold">-$3,200</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
